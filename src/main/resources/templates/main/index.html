@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Index</title>
+</head>
+<body>
+<div th:replace="layout/header::header"></div>
+<div class="container">
+    <div style="margin: 20px">
+        <div class="page-header" style="float: left">
+            <h1>Basic 목록</h1>
+        </div>
+        <div class="pull-right" style="width:100px;margin:10px 0;float:right">
+            <a href="#" th:href="@{/basic/new}" class="btn btn-primary btn-block">등록</a>
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>이름</th>
+            <th>직책</th>
+            <th>이메일</th>
+            <th>연락처</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="basic : ${basicList}">
+            <td th:text="${basic.idx}"></td>
+            <td>
+                <a href="#" th:href="@{'/basic/'+ ${basic.idx}}" th:text="${basic.name}"></a>
+            </td>
+            <td th:text="${basic.label}"></td>
+            <td th:text="${basic.email}"></td>
+            <td th:text="${basic.phone}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <div style="margin: 20px">
+        <div class="page-header" style="float: left">
+            <h1>Profile 목록</h1>
+        </div>
+        <div class="pull-right" style="width:100px;margin:10px 0; float:right ">
+            <a href="#" th:href="@{/profile/new}" class="btn btn-primary btn-block">등록</a>
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>SNS</th>
+            <th>ID</th>
+            <th>링크</th>
+            <td>등록시간</td>
+            <td>수정시간</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each=" profile : ${profileList}">
+            <td th:text="${profile.idx}"></td>
+            <td><a href="#" th:href="@{'/profile/' + ${profile.idx}}" th:text="${profile.network}"></a></td>
+            <td th:text="${profile.userName}"></td>
+            <td th:text="${profile.url}"></td>
+            <td th:text="${profile.createDat} ? ${#temporals.format(profile.createDat,'YYYY-MM-dd hh:mm:ss')} : ${profile.createDat}"></td>
+            <td th:text="${profile.updateDat} ? ${#temporals.format(profile.updateDat,'YYYY-MM-dd hh:mm:ss')} : ${profile.updateDat}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

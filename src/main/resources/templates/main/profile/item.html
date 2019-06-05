@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Index</title>
+</head>
+<body>
+<div th:replace="layout/header::header"></div>
+<div class="container">
+    <input id="profile_idx" type="hidden" th:value="${profile?.idx}"/>
+    <input id="profile_createDat" type="hidden" th:value="${profile?.createDat}"/>
+    <table class="table" style="text-align: center">
+        <tr>
+            <th style="padding:13px 0 0 15px;">네트워크</th>
+            <td><input id="profile_network" type="text" class="col-md-6 mb-3 form-control input-sm" th:value="${profile?.network}"/>
+            </td>
+        </tr>
+        <tr>
+            <th style="padding:13px 0 0 15px;">이름</th>
+            <td><input id="profile_userName" type="text" class="col-md-6 mb-3 form-control input-sm" th:value="${profile?.userName}"/>
+            </td>
+        </tr>
+        <tr>
+            <th style="padding:13px 0 0 15px;">url</th>
+            <td><input id="profile_url" type="text" class="col-md-6 mb-3 form-control input-sm" th:value="${profile?.url}"/>
+            </td>
+        </tr>
+        <tr>
+            <th style="padding:13px 0 0 15px;">생성날짜</th>
+            <td><input type="text" class="col-md-6 mb-3 form-control input-sm" readonly="readonly"
+                       th:value="${profile?.createDat} ? ${#temporals.format(profile.createDat,'YYYY-MM-dd hh:mm:ss')} : ${profile?.createDat}"/>
+            </td>
+        </tr>
+    </table>
+    <div class="pull-right">
+        <button th:if="${profile.idx}" type="button" class="btn btn-primary" id="update"> 수정</button>
+        <button th:if="${profile.idx}" type="button" class="btn btn-primary" id="delete"> 삭제</button>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="/js/jquery.js"></script>
+
+<script th:if="${profile?.idx}">
+    $('#update').click(function () {
+        var jsonData = JSON.stringify({
+             network: $('#profile_network').val(),
+             userName: $('#profile_userName').val(),
+             url: $('#profile_url').val(),
+             createDat: $('#profile_createDat').val(),
+        });
+        $.ajax({
+            url: "http://localhost:8080/profile/" + $('#profile_idx').val(),
+            type: "PUT",
+            data: jsonData,
+            contentType: "application/json",
+            dataType: "json",
+            success: function () {
+                alert('수정 성공!');
+                location.href = 'list';
+            },
+            error: function () {
+                alert('수정 실패!');
+            }
+        });
+    });
+    $('#delete').click(function () {
+        $.ajax({
+            url: "http://localhost:8080/profile/" + $('#profile_idx').val(),
+            type: "DELETE",
+            success: function () {
+                alert('삭제 성공!');
+                location.href = 'list';
+            },
+            error: function () {
+                alert('삭제 실패!');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
