@@ -54,13 +54,21 @@ public class MainController {
 
     @GetMapping("/basic/{idx}")
     public String readBasic(@PathVariable Long idx, Model model) {
-        model.addAttribute("basic", basicService.findBasicByIdx(idx));
+        Basic foundBasic = basicService.findBasicByIdx(idx);
+        if(foundBasic.getIdx() == 0) {
+            return "main/error";
+        }
+        model.addAttribute("basic", foundBasic);
         return "/main/basic/item";
     }
 
     @GetMapping("/profile/{idx}")
     public String readProfile(@PathVariable Long idx, Model model) {
-        model.addAttribute("profile", profileService.findProfileByIdx(idx));
+        Profile foundProfile = profileService.findProfileByIdx(idx);
+        if(foundProfile.getIdx() == 0){
+            return "main/error";
+        }
+        model.addAttribute("profile", foundProfile);
         return "/main/profile/item";
     }
 
