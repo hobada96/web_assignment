@@ -3,7 +3,10 @@ package com.n2015942034.main.controller;
 import com.n2015942034.main.domain.Basic;
 import com.n2015942034.main.domain.Profile;
 import com.n2015942034.main.service.BasicService;
+import com.n2015942034.main.service.MainService;
 import com.n2015942034.main.service.ProfileService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,16 +17,18 @@ import org.springframework.web.bind.annotation.*;
 public class MainController {
     private BasicService basicService;
     private ProfileService profileService;
+    private MainService mainService;
 
-    public MainController(BasicService basicService, ProfileService profileService) {
-        this.profileService = profileService;
+    public MainController(BasicService basicService, ProfileService profileService, MainService mainService) {
         this.basicService = basicService;
+        this.profileService = profileService;
+        this.mainService = mainService;
     }
 
     @GetMapping({"/", "basic/list", "profile/list"})
-    public String list(Model model) {
-        model.addAttribute("basicList", basicService.findBasicList());
-        model.addAttribute("profileList", profileService.findProfileList());
+    public String list(@PageableDefault Pageable pageable, Model model) {
+        model.addAttribute("basicList", mainService.findBasicList(pageable));
+        model.addAttribute("profileList", mainService.findProfileList(pageable));
         return "main/index";
     }
 
@@ -99,5 +104,4 @@ public class MainController {
         profileService.saveProfile(persistProfile);
         return new ResponseEntity<>("{}", HttpStatus.OK);
     }
-
 }
