@@ -25,7 +25,6 @@ public class BasicTest {
         saveBasic = basicRepository.save(Basic.builder().name("홍길동")
                 .label("도적")
                 .email("hong@gmail.com")
-                .phone("012-3456-789")
                 .build());
     }
 
